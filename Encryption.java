@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main {
+public class Encryption {
     /**
      * 字符串加密方法
      * 
