@@ -1,0 +1,175 @@
+1. 不使用sqrt函数求一个数的平方根：
+
+输入：
+```
+    x: 一个正整数
+```
+输出：
+```
+    x的平方根
+```
+
+C++代码实现：
+```
+#include<iostream>
+using namespace std;
+
+void main(void)
+{
+	unsigned long value;
+	while(cin>>value)
+	{
+		for(unsigned int i = 0; i <= 1000; i++)
+		{
+			if(i * i == value)
+			{
+				cout<<i<<endl;
+				break;
+			}
+		}
+	}
+}
+```
+
+2. Excel列名转换列索引
+##### 描述:	
+    Microsoft Excel里面列名有自己独立的命名体系，例如A，B，C，..，Z，AA，AB，AC，..，AZ，BA，BB，BC，..，BZ，..，ZA，ZB，ZC，..，ZZ，AAA，AAB，...，ZZZ，AAAA，...，ZZZZ，...。而程序员一般比较习惯的是基于0的索引系统，即0，1，2，3，...，475253，...。请实现一个程序来完成此转换。
+ 
+运行时间限制:	无限制
+
+内存限制:	无限制
+
+输入:	
+
+    可以一行或多行，每行一个字符风格列索引，我们限定其对应的数值索引不会超过32位有符号整数所能表达的取值范围
+
+输出:    
+
+    与输入行一一对应，每行中首先输出原输入行的字符风格索引，然后输出该整数对应的基于0的数值索引，中间空格分割。
+样例输入:	
+```
+A
+AA
+AAA
+AAAA
+```
+样例输出:	
+```
+A 0
+AA 26
+AAA 702
+AAAA 18278
+```
+
+参考： http://www.jb51.net/article/75127.htm
+       http://blog.csdn.net/kingbird_wang/article/details/8295079
+       
+C++代码实现：
+```
+#include<iostream>
+#include<string>
+#include<queue>
+using namespace std;
+int procStr(string str);
+int charToNum(char ch);
+
+void main(void)
+{
+	string str;
+
+	 while(cin>>str)
+	 {
+		 cout<<" "<<procStr(str)<<endl;
+	 }
+}
+
+int procStr(string str)
+{
+	queue<int> que;
+	for(int i = 0;i < str.size(); i++)
+	{
+		que.push(charToNum(str[i]));
+
+	}
+	int value = 0;
+	while(que.empty() != true)
+	{
+		int temp = que.front();
+		que.pop();
+		value = value * 26 + temp;
+	}
+	return value - 1;
+
+}
+
+int charToNum(char ch)
+{
+	return (int)ch + 1 -(int)'A' ;
+}
+```
+
+3. CSV解析
+##### 描述:	
+逗号分隔型取值格式（英文全称为Comma Separated Values，简称CSV），是一种纯文本格式，用来存储数据。在CSV文件中，数据的字段由逗号分开，程序通过读取文件重新创建正确的字段，方法是每次遇到逗号时开始新一段数据。
+ 
+##### CSV文件的规则：
+1. 开头是不留空，以行为单位。
+2. 可含或不含列名，含列名则居文件第一行。
+3. 一行数据不垮行，无空行。
+4. 以半角逗号（即,）作分隔符。
+5. 列内容如存在半角逗号（即,）则用半角引号（即""）将该字段值包含起来。
+6. 列内容如存在半角引号（即"）则应替换成半角双引号（""）转义，并用半角引号（即""）将该字段值包含起来。
+7. 文件读写时引号，逗号操作规则互逆。
+8. 内码格式不限，可为 ASCII、Unicode 或者其他。
+ 
+输入csv文件的一行，输出各列的内容，如果输入不合法，输出ERROR
+
+例如:
+
+样例一：
+
+输入：
+```
+"NE=3145728,CP=-1",,"crated by ""admin""",ATN910,CTXXF
+```
+输出：
+```
+NE=3145728,CP=-1
+ 
+crated by "admin"
+ATN910
+CTXXF
+```
+
+样例二：
+
+输入：
+```
+NE=3145728,crated by ""admin"",ATN910,CTXXF
+```
+输出：
+```
+ERROR
+ ```
+
+说明：
+
+样例二不满足条件6,虽然引号做了转义，但是字段没有用双引号包含起来
+运行时间限制:	无限制
+内存限制:	无限制
+输入:	
+输入csv文件的一行
+输出:	
+输出该行每列的值，如果输入行不满足上述的规则，则只输出ERROR
+样例输入:	
+```
+"NE=3145728,CP=-1",,ATN910,CTXXF
+```
+样例输出:	
+```
+NE=3145728,CP=-1
+
+ATN910
+CTXXF
+```
+答案提示：空列也要输出换行
